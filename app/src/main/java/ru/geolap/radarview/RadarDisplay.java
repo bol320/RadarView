@@ -224,7 +224,8 @@ public class RadarDisplay extends View {
     private void generateRaindrop(int cx, int cy, int radius) {
 
         if (mRaindrops.size() < mRaindropNum) {
-            boolean probability = (int) (Math.random() * 20) == 0;
+ //           boolean probability = (int) (Math.random() * 20) == 0;
+            boolean probability = true;
             if (probability) {
                 int x = 0;
                 int y = 0;

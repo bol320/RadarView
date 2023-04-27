@@ -33,7 +33,7 @@
         app:raindropColor="#50B354"
         android:background="#000000"
         app:showCross="true"
-        app:raindropNum="8"/>
+        app:raindropNum="15"/>
 
 
     <Button
