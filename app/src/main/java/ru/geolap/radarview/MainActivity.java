@@ -51,17 +51,15 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap.Config cfg;
 
                 try {
-                    URL url = new URL(urldisplay);
-                    InputStream in = url.openStream();
-                    bmpRadar = BitmapFactory.decodeStream(in);
+                      URL url = new URL(urldisplay);
+                      InputStream in = url.openStream();
+                      bmpRadar = BitmapFactory.decodeStream(in);
 
-                    Bitmap newRadarVideo = processRadarVideo(bmpRadar);
+                      Bitmap newRadarVideo = processRadarVideo(bmpRadar);
 
-                    cfg = bmpRadar.getConfig();
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                   } catch (IOException e) {
+                             throw new RuntimeException(e);
+                          }
             } // end run
         }).start();
     }
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 1, 0, 0, 0, 0,      //red
                 0, 1, 0, 0, 0,      //green
                 0, 0, 1, 0, 0,      //blue
-                0, 0, 0, 1, 255     //alpha
+                255, 0, 0, 1, 0     //alpha
         };
         // create output bitmap
         Bitmap mutableBitmap = src.isMutable()
@@ -106,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 G = (int)(Color.green(pixel) );
                 B = (int)(Color.blue(pixel));
 
-                if(R > 0) {
+                if(A > 0 ) {
                     A= 255;
                 }
                 // set new color pixel to output bitmap
