@@ -107,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
                 if(A > 0 ) {
                     A= 255;
                 }
-                // set new color pixel to output bitmap
- //               src.setPixel(x, y, Color.argb(A, R, G, B));
             }
         }
 
