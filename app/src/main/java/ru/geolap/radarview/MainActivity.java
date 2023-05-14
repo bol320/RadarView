@@ -1,5 +1,6 @@
 package ru.geolap.radarview;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
@@ -32,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void StartAnimation(View view) {
-   //     radar.start();
+        radar.start();
 
-        LoadRadarVideo();
+//        LoadRadarVideo();
     }
 
     public void EndAnimation(View view) {
@@ -45,31 +46,34 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-    //            String urldisplay = "http://vm3.geokaskad.online:29292/latest?resolution=2048";
-                String urldisplay = "http://5.17.3.10:9000/latest?resolution=3520";
+     //           String urldisplay = "http://vm3.geokaskad.online:29292/latest?resolution=2048";
+               String urldisplay = "http://5.17.3.10:9000/latest?resolution=3520";
                 Bitmap bmpRadar = null;
-                Bitmap.Config cfg;
 
                 try {
-                      URL url = new URL(urldisplay);
-                      InputStream in = url.openStream();
-                      bmpRadar = BitmapFactory.decodeStream(in);
+                    URL url = new URL(urldisplay);
+                    InputStream in = url.openStream();
+                    bmpRadar = BitmapFactory.decodeStream(in);
 
-                      Bitmap newRadarVideo = processRadarVideo(bmpRadar);
+                    Bitmap bmpResized = Bitmap.createScaledBitmap(bmpRadar, radar.getWidth(), radar.getHeight(), true);
+                    Bitmap newRadarVideo = setAlphaChannel(bmpResized, 255, 0, 0);
 
-                   } catch (IOException e) {
-                             throw new RuntimeException(e);
-                          }
+                    bmpResized.recycle();
+                    bmpRadar.recycle();
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             } // end run
         }).start();
     }
 
-    public static Bitmap processRadarVideo(Bitmap src) {
+    public static Bitmap setAlphaChannel(@NonNull Bitmap src, float R, float G, float B) {
         float[] matrix = {
                 1, 0, 0, 0, 0,      //red
                 0, 1, 0, 0, 0,      //green
                 0, 0, 1, 0, 0,      //blue
-                255, 0, 0, 1, 0     //alpha
+                R, G, B, 1, 0       //alpha
         };
         // create output bitmap
         Bitmap mutableBitmap = src.isMutable()
@@ -87,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         return mutableBitmap;
     }
 
-    public static void decodeBitmap(Bitmap src) {
+    public static void decodeBitmap(@NonNull Bitmap src) {
         int width  = src.getWidth();
         int height = src.getHeight();
 
@@ -104,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 G = (int)(Color.green(pixel) );
                 B = (int)(Color.blue(pixel));
 
-                if(A > 0 ) {
+                if(A > 0) {
                     A= 255;
                 }
             }
